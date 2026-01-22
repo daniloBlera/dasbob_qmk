@@ -53,7 +53,7 @@
 
 // Pick good defaults for enabling homerow modifiers
 #define TAPPING_TERM 200
-#define PERMISSIVE_HOLD
+#define QUICK_TAP_TERM 0
 #define USB_VBUS_PIN 19
 #define AUDIO_PWM_DRIVER PWMD2
 #define AUDIO_PWM_CHANNEL RP2040_PWM_CHANNEL_B
@@ -67,3 +67,6 @@
 #endif
 
 #define STARTUP_SOUND E__NOTE(_E6), E__NOTE(_A6), ED_NOTE(_E7),
+
+// Disable Caps Word while holding Shift
+#define CAPS_WORD_INVERT_ON_SHIFT

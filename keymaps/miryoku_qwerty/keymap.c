@@ -17,6 +17,27 @@ enum dasbob_layers {
 #define BSP_NUM LT(NUMBERS, KC_BSPC)
 #define DEL_FUN LT(FUNCTIONS, KC_DEL)
 
+// define what keys should affect and be affected by caps words
+bool caps_word_press_user(uint16_t keycode) {
+    switch (keycode) {
+        // Keycodes that continue Caps Word, with shift applied.
+        case KC_A ... KC_Z:
+            add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to next key.
+            return true;
+
+        // Keycodes that continue Caps Word, without shifting.
+        case KC_1 ... KC_0:
+        case KC_BSPC:
+        case KC_DEL:
+        case KC_UNDS:
+        case KC_MINS:
+            return true;
+
+        default:
+            return false;  // Deactivate Caps Word.
+    }
+}
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
      *         ┌───┐                           ┌───┐
@@ -46,24 +67,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     // the following three layers are related to the left thumb
     [MEDIA] = LAYOUT_split_3x5_3(
-            KC_NO,          KC_NO,        KC_NO,        KC_NO,        KC_NO,             RGB_TOG,      RGB_MOD,      RGB_HUI,        RGB_SAI,      RGB_SPI,
-            KC_LGUI,        KC_LALT,      KC_LCTL,      KC_LSFT,      KC_NO,             RGB_VAI,      KC_MPRV,      KC_VOLD,        KC_VOLU,      KC_MNXT,
+            KC_NO,          KC_NO,        KC_NO,        KC_NO,        KC_NO,             UG_TOGG,      UG_NEXT,      UG_VALU,        UG_SATU,      UG_SPDU,
+            KC_LGUI,        KC_LALT,      KC_LCTL,      KC_LSFT,      KC_NO,             UG_VALU,      KC_MPRV,      KC_VOLD,        KC_VOLU,      KC_MNXT,
             KC_RALT,        KC_NO,        KC_NO,        KC_NO,        KC_NO,             KC_NO,        KC_NO,        KC_BRID,        KC_BRIU,      KC_NO,
                                           KC_NO,        KC_NO,        KC_NO,             KC_MSTP,      KC_MPLY,      KC_MUTE
     ),
 
     [NAVIGATION] = LAYOUT_split_3x5_3(
             KC_NO,          KC_NO,        KC_NO,        KC_NO,        KC_NO,             KC_AGIN,      KC_PSTE,      KC_COPY,        KC_CUT,       KC_UNDO,
-            KC_LGUI,        KC_LALT,      KC_LCTL,      KC_LSFT,      KC_NO,             KC_CAPS,      KC_LEFT,      KC_DOWN,        KC_UP,        KC_RIGHT,
+            KC_LGUI,        KC_LALT,      KC_LCTL,      KC_LSFT,      KC_NO,             KC_NO,        KC_LEFT,      KC_DOWN,        KC_UP,        KC_RIGHT,
             KC_RALT,        KC_NO,        KC_NO,        KC_NO,        KC_NO,             KC_INSERT,    KC_HOME,      KC_PGDN,        KC_PGUP,      KC_END,
                                           KC_NO,        KC_NO,        KC_NO,             KC_ENTER,     KC_BSPC,      KC_DELETE
     ),
 
     [MOUSE] = LAYOUT_split_3x5_3(
             KC_NO,          KC_NO,        KC_NO,        KC_NO,        KC_NO,             KC_AGIN,      KC_PSTE,      KC_COPY,        KC_CUT,       KC_UNDO,
-            KC_LGUI,        KC_LALT,      KC_LCTL,      KC_LSFT,      KC_NO,             KC_NO,        KC_MS_L,      KC_MS_D,        KC_MS_U,      KC_MS_R,
-            KC_RALT,        KC_NO,        KC_NO,        KC_NO,        KC_NO,             KC_NO,        KC_WH_L,      KC_WH_D,        KC_WH_U,      KC_WH_R,
-                                          KC_NO,        KC_NO,        KC_NO,             KC_BTN2,      KC_BTN1,      KC_BTN3
+            KC_LGUI,        KC_LALT,      KC_LCTL,      KC_LSFT,      KC_NO,             KC_NO,        MS_WHLL,      MS_WHLD,        MS_WHLU,      MS_WHLR,
+            KC_RALT,        KC_NO,        KC_NO,        KC_NO,        KC_NO,             KC_NO,        MS_WHLL,      MS_WHLD,        MS_WHLU,      MS_WHLR,
+                                          KC_NO,        KC_NO,        KC_NO,             MS_BTN2,      MS_BTN1,      MS_BTN3
     ),
 
     // and the following three are from the right thumb
@@ -85,6 +106,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             KC_F12,         KC_F7,        KC_F8,        KC_F9,        KC_PSCR,           KC_NO,        KC_NO,        KC_NO,          KC_NO,        KC_NO,
             KC_F11,         KC_F4,        KC_F5,        KC_F6,        KC_SCRL,           KC_NO,        KC_LSFT,      KC_LCTL,        KC_LALT,      KC_LGUI,
             KC_F10,         KC_F1,        KC_F2,        KC_F3,        KC_PAUSE,          KC_NO,        KC_NO,        KC_NO,          KC_NO,        KC_RALT,
-                                          KC_NO,        KC_APP,       KC_NO,             KC_NO,        KC_NO,        KC_NO
+                                          KC_NO,        KC_APP,       CW_TOGG,           KC_NO,        KC_NO,        KC_NO
     ),
 };
