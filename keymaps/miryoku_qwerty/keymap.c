@@ -1,5 +1,7 @@
 #include QMK_KEYBOARD_H
 
+// the base plus six layers for a miryoku layout. Check out:
+//  https://github.com/manna-harbour/miryoku
 enum dasbob_layers {
   BASE,
   MEDIA,
@@ -20,12 +22,12 @@ enum dasbob_layers {
 // define what keys should affect and be affected by caps words
 bool caps_word_press_user(uint16_t keycode) {
     switch (keycode) {
-        // Keycodes that continue Caps Word, with shift applied.
+        // Continue Caps Word with Shift
         case KC_A ... KC_Z:
-            add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to next key.
+            add_weak_mods(MOD_BIT(KC_LSFT));
             return true;
 
-        // Keycodes that continue Caps Word, without shifting.
+        // Continue Caps Word without Shift
         case KC_1 ... KC_0:
         case KC_BSPC:
         case KC_DEL:
@@ -33,8 +35,9 @@ bool caps_word_press_user(uint16_t keycode) {
         case KC_MINS:
             return true;
 
+        // Deactivate Caps Word
         default:
-            return false;  // Deactivate Caps Word.
+            return false;
     }
 }
 
@@ -82,7 +85,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [MOUSE] = LAYOUT_split_3x5_3(
             KC_NO,          KC_NO,        KC_NO,        KC_NO,        KC_NO,             KC_AGIN,      KC_PSTE,      KC_COPY,        KC_CUT,       KC_UNDO,
-            KC_LGUI,        KC_LALT,      KC_LCTL,      KC_LSFT,      KC_NO,             KC_NO,        MS_WHLL,      MS_WHLD,        MS_WHLU,      MS_WHLR,
+            KC_LGUI,        KC_LALT,      KC_LCTL,      KC_LSFT,      KC_NO,             KC_NO,        MS_LEFT,      MS_DOWN,        MS_UP,        MS_RGHT,
             KC_RALT,        KC_NO,        KC_NO,        KC_NO,        KC_NO,             KC_NO,        MS_WHLL,      MS_WHLD,        MS_WHLU,      MS_WHLR,
                                           KC_NO,        KC_NO,        KC_NO,             MS_BTN2,      MS_BTN1,      MS_BTN3
     ),
